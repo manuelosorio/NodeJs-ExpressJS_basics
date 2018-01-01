@@ -1,8 +1,8 @@
 var express = require ("express");
 var path = require('path');
-
 var app = express();
-
+// 1.7 Express Router
+var dogs = require('./module/dogs')
 
 /*------------------------------------- 1 Routes ---------------------------------------
 
@@ -12,6 +12,7 @@ var app = express();
     1.4 Routes Handlers
     1.5 Response Methods
     1.6 app.route()
+    1.7 express.Router()
 
     INFORMATION BASED ON THE EXPRESSJS DOCS - https://expressjs.com/en/guide/routing.html
 
@@ -196,6 +197,15 @@ app.route('/game').get((req, res) => {
 }).put((req, res) => {
   res.send('Update the book');
 });
+
+  /*-------------------------------- 1.7 express.Router() --------------------------------
+
+    • Used to create modular, mountable handlers
+    • A router is a middleware and routing system, often reffered as a "mini-app"
+
+  ----------------------------------------------------------------------------------*/
+
+  app.use('/dogs', dogs)
 
 //load static files
 app.use('/app', express.static('public'));
