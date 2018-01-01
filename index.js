@@ -11,6 +11,7 @@ var app = express();
     1.3 Route Params
     1.4 Routes Handlers
     1.5 Response Methods
+    1.6 app.route()
 
     INFORMATION BASED ON THE EXPRESSJS DOCS - https://expressjs.com/en/guide/routing.html
 
@@ -103,12 +104,12 @@ app.get('/users/:userId/games/:gameId', (req, res) => res.send(req.params));
     // 1.3.2 dots and hypens
       // Since dots and hypens are interperated litterly, they can be use along with route parameters for useful purposes
 
-      // using hyphen (-) in params
+      // Using hyphen (-) in params
       // http://localhost:3000/flights/MCO-LAX
       // {"from":"MCO","to":"LAX"}
 app.get('/flights/:from-:to', (req, res) => res.send(req.params));
 
-    //using dot (.) in params
+    // Using dot (.) in params
     // http://localhost:3000/animalia/Canis.Lupus
     // {"genus":"Canis","species":"Lupus"}
 app.get('/animalia/:genus.:species', (req,res) => res.send(req.params))
@@ -118,8 +119,8 @@ app.get('/animalia/:genus.:species', (req,res) => res.send(req.params))
   /*------------------------------- 1.4 Routes Handlers -------------------------------
 
     • Behave like middleware providing multiple callbacks to handle requests.
-      ○ callbacks may use  next('route') to bypass remaining route callbacks.
-      ○ can use this mechanism to give pre-conditions on a route
+      ○ Callbacks may use  next('route') to bypass remaining route callbacks.
+      ○ Can use this mechanism to give pre-conditions on a route
 
     • Can be in the form of a function, array of functions, or a combination both
 
@@ -136,7 +137,7 @@ app.get('/handlers-ex/b', (req, res, next) => {
   res.send('Hello from B!')
 });
 
-  //array of functions
+  // Array of functions
 var callback0 = (req, res, next) => {
   console.log('Callback0');
   next();
@@ -152,7 +153,7 @@ app.get('/handlers-ex/c', [callback0, callback1, callback2])
 
   /*------------------------------- 1.5 Response Methods -------------------------------
 
-    • methods o nthe response object(res), if none of
+    • Methods o nthe response object(res), if none of
       the methods bellow are used from a route handlers,
       the client request is left hanging
 
@@ -161,9 +162,9 @@ app.get('/handlers-ex/c', [callback0, callback1, callback2])
     • res.end()
       ○ End the response process
     • res.json()
-      ○ send JSON response
+      ○ Send JSON response
     • res.jsonp()
-      ○ send a JSON response with JSONP support
+      ○ Send a JSON response with JSONP support
     • res.redirect()
       ○ Redirect a request
     • res.render()
@@ -177,6 +178,24 @@ app.get('/handlers-ex/c', [callback0, callback1, callback2])
         representation as the response body
 
   ----------------------------------------------------------------------------------*/
+
+  /*-------------------------------- 1.6 app.route() --------------------------------
+
+    • Can create chainable route handlers for a route
+      ○ Since the path is specified at a single location,
+       craeting modular routes is helpful
+
+      MORE INFORMATION AT https://expressjs.com/en/4x/api.html#router
+
+  ----------------------------------------------------------------------------------*/
+
+app.route('/game').get((req, res) => {
+  res.send('Get a random book');
+}).post((req, res) => {
+  res.send('Add a book');
+}).put((req, res) => {
+  res.send('Update the book');
+});
 
 //load static files
 app.use('/app', express.static('public'));
