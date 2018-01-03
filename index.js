@@ -4,6 +4,8 @@ var app = express();
 
 var routes = require('./_lesson/1-routes');
 
+app.set('port', (process.env.PORT || 3000))
+
 app.use('/1-routes', routes);
 
 //load static files
@@ -16,4 +18,6 @@ app.use( (req, res, next) => {
 });
 
 
-app.listen(80, () => console.log('Listening on port 80!'));
+app.listen(app.get('port'), () => {
+  console.log('App running on port ', app.get('port'));
+});
